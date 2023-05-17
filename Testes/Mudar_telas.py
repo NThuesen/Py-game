@@ -87,7 +87,7 @@ class Tela2:
 class Jogo:
     def __init__(self):
         pygame.init()
-        self.window = pygame.display.set_mode((500, 400))
+        self.window = pygame.display.set_mode((800, 600))
         pygame.display.set_caption('Telas com classes')
 
         self.tela_atual = TelaInicial()
