@@ -6,8 +6,8 @@ pygame.init()
 
 # ----- Gera tela principal
 largura = 900
-tela = 600
-window = pygame.display.set_mode((largura,tela))
+altura = 600
+window = pygame.display.set_mode((largura,altura))
 pygame.display.set_caption('Ultimate Pong')
 
 # ----- Inicia estruturas de dados
