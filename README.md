@@ -1,4 +1,3 @@
 # Py-game
-Um jogo RPG simples
-Feito por iniciantes usando a biblioteca do pygame
-Qualquer sugestão será bem vinda! 
+Um jogo de Pong feito por alunos do Insper: Nicholas Thuesen, Luiz Eduardo, Matheus Constante 
+
