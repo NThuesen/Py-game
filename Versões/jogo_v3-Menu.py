@@ -12,8 +12,8 @@ pygame.display.set_caption('Ultimate Pong')
 
 # Carrega as imagens
 
-Suisei = pygame.image.load('Imagens/Suisei.jpg')
-Suisei = pygame.transform.scale(Suisei, (200, 200))
+Seta= pygame.image.load('Imagens/Seta.webp').convert_alpha()
+Seta = pygame.transform.scale(Seta, (100, 100))
 
 # Tela de Início
 
@@ -101,34 +101,17 @@ while Menu:
                     pygame.quit()
                     quit()
                 
-                Suisei_rect = Suisei.get_rect() # Cria um retângulo com mesmas dimensões da Suisei
-                Suisei_rect.topleft = (650, 30)  # Define as coordenadas do retângulo
+                Seta_rect = Seta.get_rect() # Cria um retângulo com mesmas dimensões da Seta
+                Seta_rect.topleft = (750, 30)  # Define as coordenadas do retângulo
 
-                if event.type == pygame.MOUSEBUTTONDOWN and botao_voltar.collidepoint(event.pos):  # Verifica se clicaram na Suisei
+                if event.type == pygame.MOUSEBUTTONDOWN and Seta_rect.collidepoint(event.pos):  # Verifica se clicaram na Seta
                     Tela = 'menu'
                 
                 # ----- Gera saídas
                 window.fill((0, 0, 0))  # Preenche com a cor preta
 
-                        # Configurações do botão "voltar"
-                cor_botao = (255, 255, 255)  # branco
-                largura_botao = 200
-                altura_botao = 50
-                x_botao = largura // 2 - largura_botao // 2
-                y_botao = altura // 2
-                
-                # Desenha o retângulo do botão "voltar"
-                botao_voltar = pygame.draw.rect(window, cor_botao, pygame.Rect(x_botao, y_botao, largura_botao, altura_botao))
-                
-                # Configurações do texto do botão "voltar"
-                fonte = pygame.font.Font(None, 36)
-                texto_voltar = fonte.render("voltar", True, (0, 0, 0))  # Preto
-                texto_voltar_rect = texto_voltar.get_rect(center=(x_botao + largura_botao // 2, y_botao + altura_botao // 2))
-                
-                # Desenha o texto do botão "voltar"
-                window.blit(texto_voltar, texto_voltar_rect)
-
-                window.blit(Suisei, (650, 30))
+                # Desenha a Suisei
+                window.blit(Seta, (750, 30))
 
 
             # ----- Atualiza estado do jogo
