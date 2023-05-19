@@ -10,6 +10,13 @@ altura = 600
 window = pygame.display.set_mode((largura,altura))
 pygame.display.set_caption('Ultimate Pong')
 
+# Carrega as imagens
+
+Suisei = pygame.image.load('Imagens/Suisei.jpg')
+Suisei = pygame.transform.scale(Suisei, (200, 200))
+
+# Tela de Início
+
 def tela_de_inicio():
     # Loop para exibir a tela de início
     inicio = True
@@ -28,6 +35,7 @@ def tela_de_inicio():
         
         # Desenha o fundo na tela
         window.fill((0, 0, 0))
+
         
         # Configurações do botão "Jogar"
         cor_botao = (255, 255, 255)  # branco
@@ -76,29 +84,40 @@ def tela_de_inicio():
         pygame.display.flip()
 
 # ----- Inicia estruturas de dados
+Menu = True
+
+Tela = 'menu'  # Estado inicial do jogo
+
+while Menu:
+    if Tela == 'menu':
+        Tela = tela_de_inicio()
+    
+    elif Tela == 'como jogar':
+        # Loop para exibir a tela de instruções
+        while Tela == 'como jogar':
+            for event in pygame.event.get():
+
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    quit()
+                
+                Suisei_rect = Suisei.get_rect() # Cria um retângulo com mesmas dimensões da Suisei
+                Suisei_rect.topleft = (650, 30)  # Define as coordenadas do retângulo
+
+                if event.type == pygame.MOUSEBUTTONDOWN and Suisei_rect.collidepoint(event.pos):  # Verifica se clicaram na Suisei
+                    Tela = 'menu'
+                
+                # ----- Gera saídas
+                window.fill((0, 0, 0))  # Preenche com a cor preta
+
+                window.blit(Suisei, (650, 30))
 
 
-tela = tela_de_inicio()
-
-while tela == 'como jogar':
-    manual = True
-
-    while manual:
-        # ----- Trata eventos
-        for event in pygame.event.get():
-            # ----- Verifica consequências
-            if event.type == pygame.QUIT:
-                manual = False
-
-        # ----- Gera saídas
-        window.fill((0, 0, 0))  # Preenche com a cor preta
-
-        # ----- Atualiza estado do jogo
-        pygame.display.update()  # Mostra o novo frame para o jogador
-
-    # ===== Finalização =====
-    pygame.quit()  # Função do PyGame que finaliza os recursos utilizados
-
+            # ----- Atualiza estado do jogo
+                pygame.display.update()  # Mostra o novo frame para o jogador
+    else:
+        Menu = False
+                
 # ===== Loop principal =====
 game = True
 
