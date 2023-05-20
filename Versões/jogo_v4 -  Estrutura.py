@@ -1,6 +1,10 @@
 # ===== Inicialização =====
 # ----- Importa e inicia pacotes
 import pygame
+import os
+# Força o diretório a ser o mesmo independentemente do computador
+diretorio = os.path.dirname(os.path.abspath(__file__))
+os.chdir(diretorio)
 
 pygame.init()
 
