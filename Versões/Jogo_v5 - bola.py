@@ -165,7 +165,7 @@ class ball (pygame.sprite.Sprite):
         self.speedx = 5
         self.speedy = 5
     
-    def update(self):
+    def update(self, raquete, raquete2):
         # Atualização da posição da bola
         self.rect.x += self.speedx
         self.rect.y += self.speedy
