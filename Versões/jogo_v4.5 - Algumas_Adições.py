@@ -167,9 +167,11 @@ game = True
 
 #  ===== FPS do jogo  =====
 clock = pygame.time.Clock()
-FPS = 120
+FPS = 60
 
 while game:
+    # ---FPS ---
+    clock.tick(FPS)
     # ----- Trata eventos
     for event in pygame.event.get():
         # ----- Verifica consequências
@@ -180,27 +182,27 @@ while game:
         if event.type == pygame.KEYDOWN:
             # Dependendo da tecla, altera a velocidade.
             if event.key == pygame.K_w:
-                Player1.speed -= 2
+                Player1.speed -= 5
             if event.key == pygame.K_s:
-                Player1.speed += 2
+                Player1.speed += 5
         # Verifica se soltou alguma tecla.
         if event.type == pygame.KEYUP:
             # Dependendo da tecla, altera a velocidade.
             if event.key == pygame.K_w:
-                Player1.speed += 2
+                Player1.speed += 5
             if event.key == pygame.K_s:
-                Player1.speed -= 2
+                Player1.speed -= 5
     # ////// Movimento Player 2 //////
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_UP:
-                Player2.speed -= 2
+                Player2.speed -= 5
             if event.key == pygame.K_DOWN:
-                Player2.speed += 2
+                Player2.speed += 5
         if event.type == pygame.KEYUP:
             if event.key == pygame.K_UP:
-                Player2.speed += 2
+                Player2.speed += 5
             if event.key == pygame.K_DOWN:
-                Player2.speed -= 2
+                Player2.speed -= 5
     
     # ----- Gera saídas
     Rackets.update() # Atualiza posição dos players
