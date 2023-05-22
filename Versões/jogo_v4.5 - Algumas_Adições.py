@@ -26,11 +26,9 @@ Racket_img = pygame.image.load('Músicas/Suisei.jpg').convert_alpha()
 Racket_img = pygame.transform.scale(Racket_img, (100, 100))
 
 
-'''# Carrega os efeitos sonoros
-pygame.mixer.music.load('Músicas/')
-pygame.mixer.music.set_volume(0.4)
-Som = pygame.mixer.Sound('assets/snd/expl3.wav')'''
-
+# Carrega os efeitos sonoros
+pygame.mixer.music.load('Músicas/Cornfield_Chase.mp3')
+pygame.mixer.music.set_volume(1)
 
 # Tela de Início
 
@@ -169,7 +167,10 @@ game = True
 clock = pygame.time.Clock()
 FPS = 60
 
+pygame.mixer.music.play(loops=-1)
+
 while game:
+
     # ---FPS ---
     clock.tick(FPS)
     # ----- Trata eventos
