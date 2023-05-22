@@ -235,7 +235,7 @@ while game:
     
     # ----- Gera saídas
     Rackets.update() # Atualiza posição dos players
-    bolas.update() # Atualiza posição da bola , requer arg player1, player2
+    bolas.update(Player1,Player2) # Atualiza posição da bola , requer arg player1, player2
     
     window.fill((255, 255, 255))  # Preenche com a cor branca
     window.blit(Blackhole, (0, 0)) # Preenche o Wallpaper do jogo
