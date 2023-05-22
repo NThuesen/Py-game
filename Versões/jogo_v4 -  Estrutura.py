@@ -167,7 +167,7 @@ game = True
 
 #  ===== FPS do jogo  =====
 clock = pygame.time.Clock()
-FPS = 120
+FPS = 30
 
 while game:
     # ----- Trata eventos
