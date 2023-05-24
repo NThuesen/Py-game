@@ -46,14 +46,15 @@ def tela_de_inicio():
                 if botao_jogar.collidepoint(event.pos):
                     return 'jogar'
                 # Verifica se o clique foi no botão "como jogar"
-                if texto_como_jogar_rect.collidepoint(event.pos):
+                if botao_rules.collidepoint(event.pos):
                     return 'como jogar'
-        
+                if botao_exit.collidepoint(event.pos):
+                    return 'sair'
+               
         # Desenha o fundo na tela
         window.fill((0, 0, 0))
         window.blit(BackMenu, (0, 0))
-
-        
+      
         # Configurações do botão "Jogar"
         cor_botao = (0 , 0, 0, 0)  # preto
         largura_botao = 200
@@ -62,8 +63,6 @@ def tela_de_inicio():
         y_botao = 320
         botao_jogar = pygame.Rect(x_botao, y_botao, largura_botao, altura_botao)
 
-
-      
         # Configurações do botão "Exit"
         cor_botao = (255, 255, 255)  # branco
         largura_botao_exit = 150
@@ -82,42 +81,6 @@ def tela_de_inicio():
         
         # Atualiza a tela
         pygame.display.flip()
-
-# ----- Inicia estruturas de dados
-Menu = True
-
-Tela = 'menu'  # Estado inicial do jogo
-
-while Menu:
-    if Tela == 'menu':
-        Tela = tela_de_inicio()
-    
-    elif Tela == 'como jogar':
-        # Loop para exibir a tela de instruções
-        while Tela == 'como jogar':
-            for event in pygame.event.get():
-
-                if event.type == pygame.QUIT:
-                    pygame.quit()
-                    quit()
-                
-                Seta_rect = Seta.get_rect() # Cria um retângulo com mesmas dimensões da Seta
-                Seta_rect.topleft = (750, 30)  # Define as coordenadas do retângulo
-
-                if event.type == pygame.MOUSEBUTTONDOWN and Seta_rect.collidepoint(event.pos):  # Verifica se clicaram na Seta
-                    Tela = 'menu'
-                
-                # ----- Gera saídas
-                window.fill((0, 0, 0))  # Preenche com a cor preta
-
-                # Desenha a Suisei
-                window.blit(Seta, (750, 30))
-
-
-            # ----- Atualiza estado do jogo
-                pygame.display.update()  # Mostra o novo frame para o jogador
-    else:
-        Menu = False
 
 # ========== Classes ==========
 class Racket (pygame.sprite.Sprite):
@@ -176,8 +139,48 @@ bola = ball(ball_img,[largura/2,(altura/2) + 50])
 bolas = pygame.sprite.Group()  # Criando um grupo com a bola
 bolas.add(bola)
 
-# ===== Loop principal =====
+# ----- Inicia estruturas de dados
+Menu = True
 game = True
+
+Tela = 'menu'  # Estado inicial do jogo
+
+while Menu:
+    if Tela == 'menu':
+        Tela = tela_de_inicio()
+    
+    elif Tela == 'como jogar':
+        # Loop para exibir a tela de instruções
+        while Tela == 'como jogar':
+            for event in pygame.event.get():
+
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    quit()
+                
+                Seta_rect = Seta.get_rect() # Cria um retângulo com mesmas dimensões da Seta
+                Seta_rect.topleft = (750, 30)  # Define as coordenadas do retângulo
+
+                if event.type == pygame.MOUSEBUTTONDOWN and Seta_rect.collidepoint(event.pos):  # Verifica se clicaram na Seta
+                    Tela = 'menu'
+                
+                # ----- Gera saídas
+                window.fill((0, 0, 0))  # Preenche com a cor preta
+
+                # Desenha a Suisei
+                window.blit(Seta, (750, 30))
+
+
+            # ----- Atualiza estado do jogo
+                pygame.display.update()  # Mostra o novo frame para o jogador
+    elif Tela == 'sair':
+        game = False
+        Menu = False
+    else:
+        Menu = False
+
+
+
 
 #  ===== FPS do jogo  =====
 clock = pygame.time.Clock()
