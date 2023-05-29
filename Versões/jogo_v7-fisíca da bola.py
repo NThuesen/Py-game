@@ -104,34 +104,30 @@ class Racket (pygame.sprite.Sprite):
         if self.rect.bottom > altura:
             self.rect.bottom = altura
 
-class ball (pygame.sprite.Sprite):
+class ball(pygame.sprite.Sprite):
     def __init__(self, img, coord):
         pygame.sprite.Sprite.__init__(self)
 
         self.image = img
-        self.mask = pygame.mask.from_surface(self.image) # Essa é a hitbox da bola
+        self.mask = pygame.mask.from_surface(self.image)  # Essa é a hitbox da bola
         self.rect = self.image.get_rect()
         self.rect.centerx = coord[0]
-        self.rect.bottom =  coord[1]
+        self.rect.bottom = coord[1]
         self.speedx = 5
         self.speedy = 5
-    
-    def update(self):
+
+    def update(self, p1, p2):
         # Atualização da posição da bola
         self.rect.x += self.speedx
         self.rect.y += self.speedy
 
         # Especifica bordas da tela
-        if self.rect.top < 0:
-            self.rect.top = 0
-        if self.rect.bottom > altura:
-            self.rect.bottom = altura
-        
-        # Para colisões p1
-        bateu = pygame.sprite.spritecollide(Racket, bolas, True)
-        if len(bateu) != 0:
-            self.rect.x = self.rect.x * -1
+        if self.rect.top < 0 or self.rect.bottom > altura:
+            self.speedy = -self.speedy
 
+        # Para colisões com os jogadores
+        if pygame.sprite.collide_rect(self, p1) or pygame.sprite.collide_rect(self, p2):
+            self.speedx = -self.speedx
 
 # ===== Criando os jogadores =====
 Player1 = Racket(Racket_img, [75, (altura/2) + 50]) # Jogador 1
@@ -232,7 +228,7 @@ while game:
     
     # ----- Gera saídas
     Rackets.update() # Atualiza posição dos players
-    bolas.update() # Atualiza posição da bola , requer arg player1, player2
+    bolas.update(Player1,Player2) # Atualiza posição da bola , requer arg player1, player2
     
     window.fill((255, 255, 255))  # Preenche com a cor branca
     window.blit(Blackhole, (0, 0)) # Preenche o Wallpaper do jogo
