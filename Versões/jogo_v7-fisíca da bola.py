@@ -156,6 +156,7 @@ bolas.add(bola)
 # ----- Inicia estruturas de dados
 Menu = True
 game = True
+space_pressed = False
 
 Tela = 'menu'  # Estado inicial do jogo
 
@@ -191,6 +192,7 @@ while Menu:
         game = False
         Menu = False
     else:
+        space_pressed = False
         Menu = False
 
 
@@ -211,6 +213,10 @@ while game:
         # ----- Verifica consequências
         if event.type == pygame.QUIT:
             game = False
+        
+        # Verifica se algum jogador pressionou a barra de espaço
+        if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
+            space_pressed = True
     
     # ////// Movimento Player 1 //////
         if event.type == pygame.KEYDOWN:
@@ -239,10 +245,11 @@ while game:
                 Player2.speed -= 5
     
     # ----- Gera saídas
-    hit = pygame.sprite.groupcollide(Rackets,bolas,False,False,pygame.sprite.collide_mask)
-    if hit != {}:
-        bolas.update(True)
-    bolas.update(False)
+    if space_pressed:    
+        hit = pygame.sprite.groupcollide(Rackets,bolas,False,False,pygame.sprite.collide_mask)
+        if hit != {}:
+            bolas.update(True)
+        bolas.update(False)
     Rackets.update() # Atualiza posição da bola , requer arg player1, player2
     
     window.fill((255, 255, 255))  # Preenche com a cor branca
