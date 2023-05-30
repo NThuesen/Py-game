@@ -126,9 +126,8 @@ class ball(pygame.sprite.Sprite):
         # Especifica bordas da tela
         if self.rect.top < 0 or self.rect.bottom > altura:
             self.speedy = -self.speedy
-
-            
-            # Para colisões com os jogadores
+        
+         # Para colisões com os jogadores
         if boleano and (abs(self.ColisãoX - self.rect.x) > 50):
             self.ColisãoX = self.rect.centerx
             if self.speedx < 0:
@@ -203,7 +202,12 @@ while Menu:
 clock = pygame.time.Clock()
 FPS = 60
 
+ # Pontuação e  música
 pygame.mixer.music.play(loops=-1)
+
+font = pygame.font.SysFont(None,48)
+PontosP1 = 0
+PontosP2 = 0
 
 while game:
 
@@ -214,11 +218,17 @@ while game:
         # ----- Verifica consequências
         if event.type == pygame.QUIT:
             game = False
-        
         # Verifica se algum jogador pressionou a barra de espaço
         if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
             space_pressed = True
-    
+        # Verifica se a bola saiu da tela
+        if bola.rect.x > largura:
+            PontosP1 += 1
+            bola.kill()
+        elif bola.rect.x < 0:
+            PontosP2 += 1
+            bola.kill()
+
     # ////// Movimento Player 1 //////
         if event.type == pygame.KEYDOWN:
             # Dependendo da tecla, altera a velocidade.
@@ -256,9 +266,17 @@ while game:
     window.fill((255, 255, 255))  # Preenche com a cor branca
     window.blit(Blackhole, (0, 0)) # Preenche o Wallpaper do jogo
 
-    # ----- Desenha as raquetes
+    # ----- Desenha os objetos
     Rackets.draw(window)
     bolas.draw(window)
+
+    # ----- Desenha as pontuações
+
+    # Desenhando o score
+    Pontuações = font.render(f'{PontosP1}', True, (255, 255, 255))
+    Ptext_rect = Pontuações.get_rect()
+    Ptext_rect.midtop = (largura/ 2,  10)
+    window.blit(Pontuações, Ptext_rect)
    
     # ----- Atualiza estado do jogo
     pygame.display.update()  # Mostra o novo frame para o jogador
