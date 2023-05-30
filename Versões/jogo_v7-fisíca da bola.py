@@ -22,7 +22,7 @@ BackMenu= pygame.image.load('Imagens\Menu.png').convert_alpha()
 BackMenu = pygame.transform.scale(BackMenu, (900, 600))
 Blackhole= pygame.image.load('Imagens/BlackHole.jpg').convert_alpha()
 Blackhole = pygame.transform.scale(Blackhole, (900, 600))
-Racket_img = pygame.image.load('Músicas/Suisei.jpg').convert_alpha()
+Racket_img = pygame.image.load('Imagens/barra.png').convert_alpha()
 Racket_img = pygame.transform.scale(Racket_img, (100, 100))
 ball_img = pygame.image.load('Imagens/Bola.png').convert_alpha()
 ball_img = pygame.transform.scale(ball_img, (75, 75))
@@ -115,8 +115,10 @@ class ball(pygame.sprite.Sprite):
         self.rect.bottom = coord[1]
         self.speedx = 5
         self.speedy = 5
+        self.colides_ticks = 75
+        self.last_colide = pygame.time.get_ticks()
 
-    def update(self, p1, p2):
+    def update(self, boleano):
         # Atualização da posição da bola
         self.rect.x += self.speedx
         self.rect.y += self.speedy
@@ -125,9 +127,19 @@ class ball(pygame.sprite.Sprite):
         if self.rect.top < 0 or self.rect.bottom > altura:
             self.speedy = -self.speedy
 
-        # Para colisões com os jogadores
-        if pygame.sprite.collide_rect(self, p1) or pygame.sprite.collide_rect(self, p2):
-            self.speedx = -self.speedx
+        # Verifica se pode virar
+        now = pygame.time.get_ticks()
+        # Verifica quantos ticks se passaram desde a ultima virada.
+        elapsed_ticks = now - self.last_colide
+
+        # Se já pode atirar novamente...
+        if elapsed_ticks > self.colides_ticks:
+            # Marca o tick da nova imagem.
+            self.last_colide = now
+
+            # Para colisões com os jogadores
+            if boleano==True:
+                self.speedx = -self.speedx
 
 # ===== Criando os jogadores =====
 Player1 = Racket(Racket_img, [75, (altura/2) + 50]) # Jogador 1
@@ -227,8 +239,11 @@ while game:
                 Player2.speed -= 5
     
     # ----- Gera saídas
-    Rackets.update() # Atualiza posição dos players
-    bolas.update(Player1,Player2) # Atualiza posição da bola , requer arg player1, player2
+    hit = pygame.sprite.groupcollide(Rackets,bolas,False,False,pygame.sprite.collide_mask)
+    if hit != {}:
+        bolas.update(True)
+    bolas.update(False)
+    Rackets.update() # Atualiza posição da bola , requer arg player1, player2
     
     window.fill((255, 255, 255))  # Preenche com a cor branca
     window.blit(Blackhole, (0, 0)) # Preenche o Wallpaper do jogo
