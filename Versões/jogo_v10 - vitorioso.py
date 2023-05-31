@@ -48,7 +48,7 @@ def atualizar_ranking(nome_jogador):
     with open('ranking.json', 'r') as arquivo_json:
         dados = json.load(arquivo_json)
 
-    jogadores = dados['jogadores']
+    jogadores = dados['players']
 
     # Verifica se o jogador já existe no ranking
     jogador_existente = next((j for j in jogadores if j['nome'] == nome_jogador), None)
@@ -65,7 +65,7 @@ def atualizar_ranking(nome_jogador):
     top5_jogadores = jogadores[:5]
 
     # Atualiza os dados no arquivo JSON
-    dados['jogadores'] = top5_jogadores
+    dados['players'] = top5_jogadores
     with open('ranking.json', 'w') as arquivo_json:
         json.dump(dados, arquivo_json)
 
