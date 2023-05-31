@@ -265,7 +265,7 @@ while game:
         bolas.add(bola)
         space_pressed = False
 
-    elif bola.rect.x < 0:
+    elif bola.rect.x + 50 < 0:
         PontosP2 += 1
         bola.kill()
         bola = ball(ball_img,[largura/2,(altura/2) + 50])
