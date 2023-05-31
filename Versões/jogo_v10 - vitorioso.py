@@ -3,6 +3,7 @@
 import pygame
 import os
 import random
+import json
 # Força o diretório a ser o mesmo independentemente do computador
 diretorio = os.path.dirname(os.path.abspath(__file__))
 os.chdir(diretorio)
@@ -14,6 +15,13 @@ largura = 900
 altura = 600
 window = pygame.display.set_mode((largura,altura))
 pygame.display.set_caption('Ultimate Pong')
+
+
+
+# Variáveis de texto
+texto_digitado = ""
+cor_texto = (255, 255, 255)  # branco
+posicao_texto = (largura // 2, altura // 2 - 60)
 
 # Carrega as imagens
 
@@ -189,8 +197,6 @@ bolas.add(bola)
 # ----- Inicia estruturas de dados
 game = True
 Menu = True
-jogando = True
-Tela_final = True
 space_pressed = False
 Tela = 'menu'  # Estado inicial do jogo
 
@@ -216,7 +222,9 @@ while game:
                 # ----- Atualiza estado do jogo
                     pygame.display.update()  # Mostra o novo frame para o jogador
         elif Tela == 'sair':
+            Tela_final = False
             jogando = False
+            game = False
             Menu = False
         else:
             space_pressed = False
@@ -327,40 +335,96 @@ while game:
             if event.type == pygame.QUIT:
                 pygame.quit()
                 quit()
-            elif event.type == pygame.MOUSEBUTTONDOWN:
-                # Verifica se o clique foi no botão "Jogar"
-                if botao_jogar.collidepoint(event.pos):
-                    Tela = 'menu'
-                    Menu = True
-                    Tela_final = False
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_BACKSPACE:
+                    texto_digitado = texto_digitado[:-1]
+                elif event.key == pygame.K_RETURN:
+                    with open("ranking.json", "a") as arquivo_json:
+                        arquivo.write(texto_digitado)
+                    print("Texto salvo no arquivo 'ranking.json'")
+                else:
+                    texto_digitado += event.unicode
 
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                if texto_confirmar_rect.collidepoint(event.pos):
+                    
+                    with open("ranking.json", "a") as arquivo:
+                        texto = arquivo_json.read()
+                    dicionario = json.loads(texto)
+                    print("Texto salvo no arquivo 'ranking.json'")
+                    leaderboard = True
+                    Tela_final = False
 
         # Desenha o fundo na tela
         window.fill((0, 0, 0))
 
+        # Configurações do texto "Digite seu nome"
+        fonte = pygame.font.Font(None, 58)
+        texto_digite_seu_nome = fonte.render("Digite seu nome:", True, (255, 255, 255))
+        texto_digite_seu_nome_rect = texto_digite_seu_nome.get_rect(center=(largura // 2, 50))
 
-        # Configuração do botão "Return"
-        cor_botao = (255, 255, 255)  # branco
+        # Desenha o texto "Digite seu nome"
+        window.blit(texto_digite_seu_nome, texto_digite_seu_nome_rect)
+
+        # Configurações do texto digitado que aparece na tela
+        fonte = pygame.font.Font(None, 36)
+        texto_digitado_render = fonte.render(texto_digitado, True, (255, 255, 255))
+        texto_digitado_rect = texto_digitado_render.get_rect(center=(largura // 2, altura // 2 - 60))
+
+        # Desenha o texto digitado
+        window.blit(texto_digitado_render, texto_digitado_rect)
+
+        # Configuração do botão "confirmar"
+        cor_botao = (255, 255, 255)
         largura_botao = 200
         altura_botao = 50
         x_botao = largura // 2 - largura_botao // 2
         y_botao = altura // 2
-        
-        # Desenha o retângulo do botão "Jogar"
-        botao_jogar = pygame.draw.rect(window, cor_botao, pygame.Rect(x_botao, y_botao, largura_botao, altura_botao))
-        
-        # Configurações do texto do botão "Jogar"
-        fonte = pygame.font.Font(None, 36)
-        texto_jogar = fonte.render("Jogar", True, (0, 0, 0))  # Preto
-        texto_jogar_rect = texto_jogar.get_rect(center=(x_botao + largura_botao // 2, y_botao + altura_botao // 2))
-        
-        # Desenha o texto do botão "Jogar"
-        window.blit(texto_jogar, texto_jogar_rect)
 
-        # Atualiza a tela
-        pygame.display.flip()  
+        # Desenha o retângulo do botão "confirmar"
+        confirmar = pygame.draw.rect(window, cor_botao, pygame.Rect(x_botao, y_botao, largura_botao, altura_botao))
+
+        # Configurações do texto do botão "confirmar"
+        fonte = pygame.font.Font(None, 36)
+        texto_confirmar = fonte.render("Confirmar", True, (0, 0, 0))
+        texto_confirmar_rect = texto_confirmar.get_rect(center=(x_botao + largura_botao // 2, y_botao + altura_botao // 2))
+
+        # Desenha o texto do botão "confirmar"
+        window.blit(texto_confirmar, texto_confirmar_rect)
+
+        pygame.display.flip()
+
+    while leaderboard:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                quit()
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                if texto_confirmar_rect.collidepoint(event.pos):
+                    Menu = True
+                    Tela = 'menu'
+                    leaderboard = False
+        # Desenha o fundo na tela        
+        window.fill((0, 0, 0))
+
+        # Configuração do botão "confirmar"
+        cor_botao = (255, 255, 255)
+        largura_botao = 200
+        altura_botao = 50
+        x_botao = largura // 2 - largura_botao // 2
+        y_botao = altura // 2
+
+        # Desenha o retângulo do botão "confirmar"
+        confirmar = pygame.draw.rect(window, cor_botao, pygame.Rect(x_botao, y_botao, largura_botao, altura_botao))
+
+        # Configurações do texto do botão "confirmar"
+        fonte = pygame.font.Font(None, 36)
+        texto_confirmar = fonte.render("Confirmar", True, (0, 0, 0))
+        texto_confirmar_rect = texto_confirmar.get_rect(center=(x_botao + largura_botao // 2, y_botao + altura_botao // 2))
+        # Aqui você pode adicionar o código para exibir a tela de leaderboard
+
+        pygame.display.flip()
 
 
 # ===== Finalização =====
-game = False
 pygame.quit()  # Função do PyGame que finaliza os recursos utilizados
