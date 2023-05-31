@@ -190,6 +190,7 @@ bolas.add(bola)
 game = True
 Menu = True
 jogando = True
+Tela_final = True
 space_pressed = False
 Tela = 'menu'  # Estado inicial do jogo
 
@@ -312,9 +313,31 @@ while game:
         P2text_rect.midtop = (largura-50, 25)
         window.blit(PontosP1txt, P1text_rect)
         window.blit(PontosP2txt, P2text_rect)
+
+        if PontosP1 == 3 or PontosP2 == 3:
+            Tela_final = True
+            jogando = False
     
         # ----- Atualiza estado do jogo
         pygame.display.update()  # Mostra o novo frame para o jogador
+
+    while Tela_final:
+
+        # Desenha o fundo na tela
+        window.fill((0, 0, 0))
+        window.blit(rule_smenu, (0, 0))  
+
+           # Configuração do botão "Return"
+        cor_botao = (255, 255, 255)  # branco
+        largura_botao_return = 200
+        altura_botao_return = 50
+        x_botao_return = 60
+        y_botao_return = 520
+        botao_return = pygame.Rect(x_botao_return, y_botao_return, largura_botao_return, altura_botao_return)  
+
+        # Atualiza a tela
+        pygame.display.flip()  
+
 
     # ===== Finalização =====
     game = False
