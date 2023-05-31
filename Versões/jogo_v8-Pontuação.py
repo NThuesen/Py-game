@@ -114,8 +114,8 @@ class ball(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.centerx = coord[0]
         self.rect.bottom = coord[1]
-        self.speedx = 4
-        self.speedy = 4
+        self.speedx = 5
+        self.speedy = 5
         self.ColisãoX = 1000
 
     def update(self, boleano):
