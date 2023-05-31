@@ -327,6 +327,14 @@ while game:
             if event.type == pygame.QUIT:
                 pygame.quit()
                 quit()
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                # Verifica se o clique foi no botão "Jogar"
+                if botao_jogar.collidepoint(event.pos):
+                    Tela = 'menu'
+                    Menu = True
+                    Tela_final = False
+
+
         # Desenha o fundo na tela
         window.fill((0, 0, 0))
 
