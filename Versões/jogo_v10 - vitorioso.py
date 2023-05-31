@@ -350,7 +350,7 @@ while game:
         window.blit(PontosP1txt, P1text_rect)
         window.blit(PontosP2txt, P2text_rect)
 
-        if PontosP1 == 1 or PontosP2 == 1:
+        if PontosP1 == 3 or PontosP2 == 3:
             Tela_final = True
             jogando = False
     
