@@ -7,6 +7,10 @@ Um jogo de Pong feito por alunos do Insper: Nicholas Thuesen, Luiz Eduardo e Mat
 
  - Essa é mais uma versão do famoso Pong, um dos primeiros jogos que existiram, e foi planejada para ser jogada por 2 pessoas, em uma batalha Versus.
 
- Ao final de cada partida, o jogo poderá salvar em outro documento o nome do vencedor e contabilizar quantas vezes essa pessoa já venceu na máquina.
+Ao final de cada partida, o jogo poderá salvar em outro documento o nome do vencedor e contabilizar quantas vezes essa pessoa já venceu na máquina.
 
+Mecânicas:
 
+ - Para a rodada começar o jogador deve clickar a tecla de espaço, essa condição se encontra no loop principal do jogo.
+
+ - Para o player 1 se mover basta clickkar "W" ou "S", enquanto, que para o player 2 basta clickar a seta para cima ou para baixo.
