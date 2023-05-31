@@ -459,7 +459,7 @@ while game:
         largura_botao = 200
         altura_botao = 50
         x_botao = largura // 2 - largura_botao // 2
-        y_botao = altura // 2
+        y_botao = 500
 
         # Desenha o retângulo do botão "confirmar"
         confirmar = pygame.draw.rect(window, cor_botao, pygame.Rect(x_botao, y_botao, largura_botao, altura_botao))
@@ -468,7 +468,9 @@ while game:
         fonte = pygame.font.Font(None, 36)
         texto_confirmar = fonte.render("Confirmar", True, (0, 0, 0))
         texto_confirmar_rect = texto_confirmar.get_rect(center=(x_botao + largura_botao // 2, y_botao + altura_botao // 2))
-        # Aqui você pode adicionar o código para exibir a tela de leaderboard
+
+        # Desenha o texto do botão "confirmar"
+        window.blit(texto_confirmar, texto_confirmar_rect)
 
         pygame.display.flip()
 
