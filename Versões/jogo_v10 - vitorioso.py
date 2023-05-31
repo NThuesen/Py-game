@@ -338,20 +338,27 @@ while game:
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_BACKSPACE:
                     texto_digitado = texto_digitado[:-1]
-                elif event.key == pygame.K_RETURN:
-                    with open("ranking.json", "a") as arquivo_json:
-                        arquivo.write(texto_digitado)
-                    print("Texto salvo no arquivo 'ranking.json'")
                 else:
                     texto_digitado += event.unicode
 
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 if texto_confirmar_rect.collidepoint(event.pos):
-                    
-                    with open("ranking.json", "a") as arquivo:
+                    with open('ranking.json', 'r') as arquivo_json:
                         texto = arquivo_json.read()
                     dicionario = json.loads(texto)
-                    print("Texto salvo no arquivo 'ranking.json'")
+
+                    novo_nome = texto_digitado.strip()  # Remove espaços extras no início e no fim do nome
+                    alunos = dicionario['Alunos']
+
+                    # Verifica se o nome já existe na lista de alunos
+                    if not any(aluno['nome'] == novo_nome for aluno in alunos):
+                        novo_aluno = {'nome': novo_nome, 'notas': [10, 7, 8]}
+                        alunos.append(novo_aluno)
+
+                        novo_json = json.dumps(dicionario)
+                        with open('ranking.json', 'w') as arquivo_json:
+                            arquivo_json.write(novo_json)
+
                     leaderboard = True
                     Tela_final = False
 
