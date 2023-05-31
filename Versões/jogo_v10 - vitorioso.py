@@ -441,7 +441,7 @@ while game:
         with open('ranking.json', 'r') as arquivo_json:
             dados = json.load(arquivo_json)
 
-        jogadores = dados['Alunos']
+        jogadores = dados['players']
 
         # Desenha os jogadores no leaderboard
         for i, jogador in enumerate(jogadores):
