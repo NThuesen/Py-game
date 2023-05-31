@@ -14,3 +14,6 @@ Mecânicas:
  - Para a rodada começar o jogador deve clickar a tecla de espaço, essa condição se encontra no loop principal do jogo.
 
  - Para o player 1 se mover basta clickkar "W" ou "S", enquanto, que para o player 2 basta clickar a seta para cima ou para baixo.
+
+ Este link permite acessar um video do Pong funcionando:
+ https://youtu.be/dYfIYGg3X8E
