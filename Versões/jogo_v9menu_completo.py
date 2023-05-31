@@ -2,6 +2,7 @@
 # ----- Importa e inicia pacotes
 import pygame
 import os
+import random
 # Força o diretório a ser o mesmo independentemente do computador
 diretorio = os.path.dirname(os.path.abspath(__file__))
 os.chdir(diretorio)
@@ -146,8 +147,8 @@ class ball(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.centerx = coord[0]
         self.rect.bottom = coord[1]
-        self.speedx = 4
-        self.speedy = 4
+        self.speedx = random.choice([-6, -5, -4, 4, 5, 6])  # Sentido inicial aleatório em X
+        self.speedy = random.choice([-6, -5, -4, 4, 5, 6])  # Sentido inicial aleatório em Y
         self.ColisãoX = 1000
 
     def update(self, boleano):
@@ -160,7 +161,7 @@ class ball(pygame.sprite.Sprite):
             self.speedy = -self.speedy
         
          # Para colisões com os jogadores
-        if boleano and (abs(self.ColisãoX - self.rect.x) > 50):
+        if boleano and (abs(self.ColisãoX - self.rect.x) > 100): # Limita uma única colisão, por jogador, por 'vez', com base na posição da bola.
             self.ColisãoX = self.rect.centerx
             if self.speedx < 0:
                 self.speedx -= 0.25
@@ -170,12 +171,12 @@ class ball(pygame.sprite.Sprite):
                 self.speedy -= 0.25
             else:
                 self.speedy += 0.25
-                
+                  
             self.speedx = - self.speedx 
 
 # ===== Criando os jogadores =====
-Player1 = Racket(Racket_img, [75, (altura/2) + 50]) # Jogador 1
-Player2 = Racket(Racket_img, [largura - 75,(altura/2) + 50]) # Jogador 2
+Player1 = Racket(Racket_img, [35, (altura/2) + 50]) # Jogador 1
+Player2 = Racket(Racket_img, [largura - 35,(altura/2) + 50]) # Jogador 2
 
 
 Rackets = pygame.sprite.Group()  # Criando um grupo com as raquetes
