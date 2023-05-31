@@ -4,7 +4,7 @@ import pygame
 import os
 import random
 # Força o diretório a ser o mesmo independentemente do computador
-diretorio = os.path.dirname(os.path.abspath(__file__))
+diretorio = os.path.dirname(os.path.abspath(_file_))
 os.chdir(diretorio)
 
 pygame.init()
@@ -27,7 +27,7 @@ Racket_img = pygame.image.load('Imagens/barra.png').convert_alpha()
 Racket_img = pygame.transform.scale(Racket_img, (100, 100))
 ball_img = pygame.image.load('Imagens/Bola.png').convert_alpha()
 ball_img = pygame.transform.scale(ball_img, (75, 75))
-rulesmenu = pygame.image.load('Imagens\Captura de tela 2023-05-30 201152.png').convert_alpha()
+rulesmenu = pygame.image.load('Imagens\rules_v2.png').convert_alpha()
 rule_smenu = pygame.transform.scale(rulesmenu, (900, 600))
 
 # Carrega os efeitos sonoros
@@ -117,8 +117,8 @@ def tela_rules():
 
 # ========== Classes ==========
 class Racket (pygame.sprite.Sprite):
-    def __init__(self, img, coord):
-        pygame.sprite.Sprite.__init__(self)
+    def _init_(self, img, coord):
+        pygame.sprite.Sprite._init_(self)
 
         self.image = img
         self.mask = pygame.mask.from_surface(self.image) # Essa é a hitbox da Racket
@@ -139,8 +139,8 @@ class Racket (pygame.sprite.Sprite):
             self.rect.bottom = altura
 
 class ball(pygame.sprite.Sprite):
-    def __init__(self, img, coord):
-        pygame.sprite.Sprite.__init__(self)
+    def _init_(self, img, coord):
+        pygame.sprite.Sprite._init_(self)
 
         self.image = img
         self.mask = pygame.mask.from_surface(self.image)  # Essa é a hitbox da bola
@@ -220,6 +220,7 @@ while game:
             Menu = False
         else:
             space_pressed = False
+            jogando = True
             Menu = False
 
     #  ===== FPS do jogo  =====
@@ -314,7 +315,7 @@ while game:
         window.blit(PontosP1txt, P1text_rect)
         window.blit(PontosP2txt, P2text_rect)
 
-        if PontosP1 == 3 or PontosP2 == 3:
+        if PontosP1 == 1 or PontosP2 == 1:
             Tela_final = True
             jogando = False
     
@@ -322,23 +323,44 @@ while game:
         pygame.display.update()  # Mostra o novo frame para o jogador
 
     while Tela_final:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                quit()
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                # Verifica se o clique foi no botão "Jogar"
+                if botao_jogar.collidepoint(event.pos):
+                    Tela = 'menu'
+                    Menu = True
+                    Tela_final = False
 
+        
         # Desenha o fundo na tela
         window.fill((0, 0, 0))
-        window.blit(rule_smenu, (0, 0))  
 
-           # Configuração do botão "Return"
+
+        # Configurações do botão "Jogar"
         cor_botao = (255, 255, 255)  # branco
-        largura_botao_return = 200
-        altura_botao_return = 50
-        x_botao_return = 60
-        y_botao_return = 520
-        botao_return = pygame.Rect(x_botao_return, y_botao_return, largura_botao_return, altura_botao_return)  
+        largura_botao = 200
+        altura_botao = 50
+        x_botao = largura // 2 - largura_botao // 2
+        y_botao = altura // 2
+        
+        # Desenha o retângulo do botão "Jogar"
+        botao_jogar = pygame.draw.rect(window, cor_botao, pygame.Rect(x_botao, y_botao, largura_botao, altura_botao))
+        
+        # Configurações do texto do botão "Jogar"
+        fonte = pygame.font.Font(None, 36)
+        texto_jogar = fonte.render("Jogar", True, (0, 0, 0))  # Preto
+        texto_jogar_rect = texto_jogar.get_rect(center=(x_botao + largura_botao // 2, y_botao + altura_botao // 2))
+        
+        # Desenha o texto do botão "Jogar"
+        window.blit(texto_jogar, texto_jogar_rect)
 
         # Atualiza a tela
         pygame.display.flip()  
 
 
-    # ===== Finalização =====
-    game = False
-    pygame.quit()  # Função do PyGame que finaliza os recursos utilizados
+# ===== Finalização =====
+game = False
+pygame.quit()  # Função do PyGame que finaliza os recursos utilizados
