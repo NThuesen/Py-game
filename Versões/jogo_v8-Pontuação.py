@@ -128,7 +128,7 @@ class ball(pygame.sprite.Sprite):
             self.speedy = -self.speedy
         
          # Para colisões com os jogadores
-        if boleano and (abs(self.ColisãoX - self.rect.x) > 75):
+        if boleano and (abs(self.ColisãoX - self.rect.x) > 75): # Limita uma única colisão, por jogador, por 'vez', com base na posição da bola.
             self.ColisãoX = self.rect.centerx
             if self.speedx < 0:
                 self.speedx -= 0.25
