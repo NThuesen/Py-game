@@ -114,8 +114,8 @@ class ball(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.centerx = coord[0]
         self.rect.bottom = coord[1]
-        self.speedx = 9
-        self.speedy = 9
+        self.speedx = 4
+        self.speedy = 4
         self.ColisãoX = 1000
 
     def update(self, boleano):
@@ -128,7 +128,7 @@ class ball(pygame.sprite.Sprite):
             self.speedy = -self.speedy
         
          # Para colisões com os jogadores
-        if boleano and (abs(self.ColisãoX - self.rect.x) > 50):
+        if boleano and (abs(self.ColisãoX - self.rect.x) > 75):
             self.ColisãoX = self.rect.centerx
             if self.speedx < 0:
                 self.speedx -= 0.25
@@ -138,8 +138,8 @@ class ball(pygame.sprite.Sprite):
                 self.speedy -= 0.25
             else:
                 self.speedy += 0.25
-                
-            self.speedx = - self.speedx 
+                  
+            self.speedx = - self.speedx
 
 # ===== Criando os jogadores =====
 Player1 = Racket(Racket_img, [35, (altura/2) + 50]) # Jogador 1
