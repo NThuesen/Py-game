@@ -187,136 +187,135 @@ bolas = pygame.sprite.Group()  # Criando um grupo com a bola
 bolas.add(bola)
 
 # ----- Inicia estruturas de dados
-Menu = True
 game = True
+Menu = True
+jogando = True
 space_pressed = False
-
 Tela = 'menu'  # Estado inicial do jogo
 
-while Menu:
-    if Tela == 'menu':
-        Tela = tela_de_inicio()
-        if Tela == 'como jogar':
-            Tela = tela_rules()
-    
-    elif Tela == 'como jogar':
-        # Loop para exibir a tela de instruções
-        while Tela == 'como jogar':
-            for event in pygame.event.get():
-
-                if event.type == pygame.QUIT:
-                    pygame.quit()
-                    quit()
-                window.blit(rule_smenu,(0,0))
-
-
-                
-            # ----- Atualiza estado do jogo
-                pygame.display.update()  # Mostra o novo frame para o jogador
-    elif Tela == 'sair':
-        game = False
-        Menu = False
-    else:
-        space_pressed = False
-        Menu = False
-
-
-
-
-#  ===== FPS do jogo  =====
-clock = pygame.time.Clock()
-FPS = 60
-
- # Pontuação e  música
-pygame.mixer.music.play(loops=-1)
-
-font = pygame.font.SysFont(None,48)
-PontosP1 = 0
-PontosP2 = 0
-
 while game:
+    while Menu:
+        if Tela == 'menu':
+            Tela = tela_de_inicio()
+            if Tela == 'como jogar':
+                Tela = tela_rules()
+        
+        elif Tela == 'como jogar':
+            # Loop para exibir a tela de instruções
+            while Tela == 'como jogar':
+                for event in pygame.event.get():
 
-    # ---FPS ---
-    clock.tick(FPS)
-    # ----- Trata eventos
-    for event in pygame.event.get():
-        # ----- Verifica consequências
-        if event.type == pygame.QUIT:
-            game = False
-        # Verifica se algum jogador pressionou a barra de espaço
-        if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
-            space_pressed = True
+                    if event.type == pygame.QUIT:
+                        pygame.quit()
+                        quit()
+                    window.blit(rule_smenu,(0,0))
 
-    # ////// Movimento Player 1 //////
-        if event.type == pygame.KEYDOWN:
-            # Dependendo da tecla, altera a velocidade.
-            if event.key == pygame.K_w:
-                Player1.speed -= 7
-            if event.key == pygame.K_s:
-                Player1.speed += 7
-        # Verifica se soltou alguma tecla.
-        if event.type == pygame.KEYUP:
-            # Dependendo da tecla, altera a velocidade.
-            if event.key == pygame.K_w:
-                Player1.speed += 7
-            if event.key == pygame.K_s:
-                Player1.speed -= 7
-    # ////// Movimento Player 2 //////
-        if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_UP:
-                Player2.speed -= 7
-            if event.key == pygame.K_DOWN:
-                Player2.speed += 7
-        if event.type == pygame.KEYUP:
-            if event.key == pygame.K_UP:
-                Player2.speed += 7
-            if event.key == pygame.K_DOWN:
-                Player2.speed -= 7
+
+                    
+                # ----- Atualiza estado do jogo
+                    pygame.display.update()  # Mostra o novo frame para o jogador
+        elif Tela == 'sair':
+            jogando = False
+            Menu = False
+        else:
+            space_pressed = False
+            Menu = False
+
+    #  ===== FPS do jogo  =====
+    clock = pygame.time.Clock()
+    FPS = 60
+
+    # Pontuação e  música
+    pygame.mixer.music.play(loops=-1)
+
+    font = pygame.font.SysFont(None,48)
+    PontosP1 = 0
+    PontosP2 = 0
+
+    while jogando:
+
+        # ---FPS ---
+        clock.tick(FPS)
+        # ----- Trata eventos
+        for event in pygame.event.get():
+            # ----- Verifica consequências
+            if event.type == pygame.QUIT:
+                jogando = False
+            # Verifica se algum jogador pressionou a barra de espaço
+            if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
+                space_pressed = True
+
+        # ////// Movimento Player 1 //////
+            if event.type == pygame.KEYDOWN:
+                # Dependendo da tecla, altera a velocidade.
+                if event.key == pygame.K_w:
+                    Player1.speed -= 7
+                if event.key == pygame.K_s:
+                    Player1.speed += 7
+            # Verifica se soltou alguma tecla.
+            if event.type == pygame.KEYUP:
+                # Dependendo da tecla, altera a velocidade.
+                if event.key == pygame.K_w:
+                    Player1.speed += 7
+                if event.key == pygame.K_s:
+                    Player1.speed -= 7
+        # ////// Movimento Player 2 //////
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_UP:
+                    Player2.speed -= 7
+                if event.key == pygame.K_DOWN:
+                    Player2.speed += 7
+            if event.type == pygame.KEYUP:
+                if event.key == pygame.K_UP:
+                    Player2.speed += 7
+                if event.key == pygame.K_DOWN:
+                    Player2.speed -= 7
+        
+        # ----- Gera saídas
+        if space_pressed:    
+            hit = pygame.sprite.groupcollide(Rackets,bolas,False,False,pygame.sprite.collide_mask)
+            if hit != {}:
+                bolas.update(True)
+            bolas.update(False)
+        Rackets.update() # Atualiza posição da bola , requer arg player1, player2
+
+        # Verifica se a bola saiu da tela, concede pontos se é o caso e cria outra bola.
+        if bola.rect.x > largura:
+            PontosP1 += 1
+            bola.kill()
+            bola = ball(ball_img,[largura/2,(altura/2) + 50])
+            bolas.add(bola)
+            space_pressed = False
+
+        elif bola.rect.x < 0:
+            PontosP2 += 1
+            bola.kill()
+            bola = ball(ball_img,[largura/2,(altura/2) + 50])
+            bolas.add(bola)
+            space_pressed = False
+        
+        window.fill((255, 255, 255))  # Preenche com a cor branca
+        window.blit(Blackhole, (0, 0)) # Preenche o Wallpaper do jogo
+
+        # ----- Desenha os objetos
+        Rackets.draw(window)
+        bolas.draw(window)
+
+        # ----- Desenha as pontuações
+
+        # Desenhando o score
+        PontosP1txt = font.render(f'{PontosP1}', True, (255, 255, 255))
+        PontosP2txt = font.render(f'{PontosP2}', True, (255, 255, 255))
+        P1text_rect = PontosP1txt.get_rect()
+        P2text_rect = PontosP2txt.get_rect()
+        P1text_rect.midtop = (50, 25)
+        P2text_rect.midtop = (largura-50, 25)
+        window.blit(PontosP1txt, P1text_rect)
+        window.blit(PontosP2txt, P2text_rect)
     
-    # ----- Gera saídas
-    if space_pressed:    
-        hit = pygame.sprite.groupcollide(Rackets,bolas,False,False,pygame.sprite.collide_mask)
-        if hit != {}:
-            bolas.update(True)
-        bolas.update(False)
-    Rackets.update() # Atualiza posição da bola , requer arg player1, player2
+        # ----- Atualiza estado do jogo
+        pygame.display.update()  # Mostra o novo frame para o jogador
 
-    # Verifica se a bola saiu da tela, concede pontos se é o caso e cria outra bola.
-    if bola.rect.x > largura:
-        PontosP1 += 1
-        bola.kill()
-        bola = ball(ball_img,[largura/2,(altura/2) + 50])
-        bolas.add(bola)
-        space_pressed = False
-
-    elif bola.rect.x < 0:
-        PontosP2 += 1
-        bola.kill()
-        bola = ball(ball_img,[largura/2,(altura/2) + 50])
-        bolas.add(bola)
-        space_pressed = False
-    
-    window.fill((255, 255, 255))  # Preenche com a cor branca
-    window.blit(Blackhole, (0, 0)) # Preenche o Wallpaper do jogo
-
-    # ----- Desenha os objetos
-    Rackets.draw(window)
-    bolas.draw(window)
-
-    # ----- Desenha as pontuações
-
-    # Desenhando o score
-    PontosP1txt = font.render(f'{PontosP1}', True, (255, 255, 255))
-    PontosP2txt = font.render(f'{PontosP2}', True, (255, 255, 255))
-    P1text_rect = PontosP1txt.get_rect()
-    P2text_rect = PontosP2txt.get_rect()
-    P1text_rect.midtop = (50, 25)
-    P2text_rect.midtop = (largura-50, 25)
-    window.blit(PontosP1txt, P1text_rect)
-    window.blit(PontosP2txt, P2text_rect)
-   
-    # ----- Atualiza estado do jogo
-    pygame.display.update()  # Mostra o novo frame para o jogador
-
-# ===== Finalização =====
-pygame.quit()  # Função do PyGame que finaliza os recursos utilizados
+    # ===== Finalização =====
+    game = False
+    pygame.quit()  # Função do PyGame que finaliza os recursos utilizados
