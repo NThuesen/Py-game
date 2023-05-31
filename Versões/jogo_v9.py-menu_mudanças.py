@@ -212,13 +212,6 @@ while game:
         # Verifica se algum jogador pressionou a barra de espaço
         if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
             space_pressed = True
-        # Verifica se a bola saiu da tela
-        if bola.rect.x > largura:
-            PontosP1 += 1
-            bola.kill()
-        elif bola.rect.x < 0:
-            PontosP2 += 1
-            bola.kill()
 
     # ////// Movimento Player 1 //////
         if event.type == pygame.KEYDOWN:
@@ -253,6 +246,21 @@ while game:
             bolas.update(True)
         bolas.update(False)
     Rackets.update() # Atualiza posição da bola , requer arg player1, player2
+
+    # Verifica se a bola saiu da tela, concede pontos se é o caso e cria outra bola.
+    if bola.rect.x > largura:
+        PontosP1 += 1
+        bola.kill()
+        bola = ball(ball_img,[largura/2,(altura/2) + 50])
+        bolas.add(bola)
+        space_pressed = False
+
+    elif bola.rect.x < 0:
+        PontosP2 += 1
+        bola.kill()
+        bola = ball(ball_img,[largura/2,(altura/2) + 50])
+        bolas.add(bola)
+        space_pressed = False
     
     window.fill((255, 255, 255))  # Preenche com a cor branca
     window.blit(Blackhole, (0, 0)) # Preenche o Wallpaper do jogo
@@ -264,15 +272,17 @@ while game:
     # ----- Desenha as pontuações
 
     # Desenhando o score
-    Pontuações = font.render(f'{PontosP1}', True, (255, 255, 255))
-    Ptext_rect = Pontuações.get_rect()
-    Ptext_rect.midtop = (largura/ 2,  10)
-    window.blit(Pontuações, Ptext_rect)
+    PontosP1txt = font.render(f'{PontosP1}', True, (255, 255, 255))
+    PontosP2txt = font.render(f'{PontosP2}', True, (255, 255, 255))
+    P1text_rect = PontosP1txt.get_rect()
+    P2text_rect = PontosP2txt.get_rect()
+    P1text_rect.midtop = (50, 25)
+    P2text_rect.midtop = (largura-50, 25)
+    window.blit(PontosP1txt, P1text_rect)
+    window.blit(PontosP2txt, P2text_rect)
    
     # ----- Atualiza estado do jogo
     pygame.display.update()  # Mostra o novo frame para o jogador
 
 # ===== Finalização =====
 pygame.quit()  # Função do PyGame que finaliza os recursos utilizados
-    
-   
