@@ -27,7 +27,7 @@ Racket_img = pygame.image.load('Imagens/barra.png').convert_alpha()
 Racket_img = pygame.transform.scale(Racket_img, (100, 100))
 ball_img = pygame.image.load('Imagens/Bola.png').convert_alpha()
 ball_img = pygame.transform.scale(ball_img, (75, 75))
-rulesmenu = pygame.image.load('Imagens\rules_v2.png').convert_alpha()
+rulesmenu = pygame.image.load('Imagens/rules_v2.png').convert_alpha()
 rule_smenu = pygame.transform.scale(rulesmenu, (900, 600))
 
 # Carrega os efeitos sonoros
@@ -117,8 +117,8 @@ def tela_rules():
 
 # ========== Classes ==========
 class Racket (pygame.sprite.Sprite):
-    def _init_(self, img, coord):
-        pygame.sprite.Sprite._init_(self)
+    def __init__(self, img, coord):
+        pygame.sprite.Sprite.__init__(self)
 
         self.image = img
         self.mask = pygame.mask.from_surface(self.image) # Essa é a hitbox da Racket
@@ -139,8 +139,8 @@ class Racket (pygame.sprite.Sprite):
             self.rect.bottom = altura
 
 class ball(pygame.sprite.Sprite):
-    def _init_(self, img, coord):
-        pygame.sprite.Sprite._init_(self)
+    def __init__(self, img, coord):
+        pygame.sprite.Sprite.__init__(self)
 
         self.image = img
         self.mask = pygame.mask.from_surface(self.image)  # Essa é a hitbox da bola
