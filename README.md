@@ -15,5 +15,9 @@ Mecânicas:
 
  - Para o player 1 se mover basta clickkar "W" ou "S", enquanto, que para o player 2 basta clickar a seta para cima ou para baixo.
 
- Este link permite acessar um video do Pong funcionando:
- https://youtu.be/dYfIYGg3X8E
+
+O site para fazer os sprites da bola e dos players foi Piskel
+
+
+Este link permite acessar um video do Pong funcionando:
+https://youtu.be/dYfIYGg3X8E
