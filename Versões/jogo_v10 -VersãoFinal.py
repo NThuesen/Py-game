@@ -63,10 +63,10 @@ def atualizar_ranking(nome_jogador):
     jogadores = sorted(jogadores, key=itemgetter('vitorias'), reverse=True)
 
     # Limita a lista aos top 5 jogadores
-    top5_jogadores = jogadores[:5]
+    top10_jogadores = jogadores[:10]
 
     # Atualiza os dados no arquivo JSON
-    dados['players'] = top5_jogadores
+    dados['players'] = top10_jogadores
     with open('ranking.json', 'w') as arquivo_json:
         json.dump(dados, arquivo_json)
 
