@@ -48,7 +48,7 @@ def atualizar_ranking(nome_jogador):
     with open('ranking.json', 'r') as arquivo_json:
         dados = json.load(arquivo_json)
 
-    jogadores = dados['Alunos']
+    jogadores = dados['jogadores']
 
     # Verifica se o jogador já existe no ranking
     jogador_existente = next((j for j in jogadores if j['nome'] == nome_jogador), None)
@@ -65,7 +65,7 @@ def atualizar_ranking(nome_jogador):
     top5_jogadores = jogadores[:5]
 
     # Atualiza os dados no arquivo JSON
-    dados['Alunos'] = top5_jogadores
+    dados['jogadores'] = top5_jogadores
     with open('ranking.json', 'w') as arquivo_json:
         json.dump(dados, arquivo_json)
 
@@ -370,22 +370,7 @@ while game:
 
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 if texto_confirmar_rect.collidepoint(event.pos):
-                    with open('ranking.json', 'r') as arquivo_json:
-                        texto = arquivo_json.read()
-                    dicionario = json.loads(texto)
-
-                    novo_nome = texto_digitado.strip()  # Remove espaços extras no início e no fim do nome
-                    alunos = dicionario['Alunos']
-
-                    # Verifica se o nome já existe na lista de alunos
-                    if not any(aluno['nome'] == novo_nome for aluno in alunos):
-                        novo_aluno = {'nome': novo_nome, 'notas': [10, 7, 8]}
-                        alunos.append(novo_aluno)
-
-                        novo_json = json.dumps(dicionario)
-                        with open('ranking.json', 'w') as arquivo_json:
-                            arquivo_json.write(novo_json)
-
+                    atualizar_ranking(texto_digitado)
                     leaderboard = True
                     Tela_final = False
 
@@ -438,8 +423,36 @@ while game:
                     Menu = True
                     Tela = 'menu'
                     leaderboard = False
-        # Desenha o fundo na tela        
+
+        # Configuração do leaderboard
+        fonte_liderboard = pygame.font.Font(None, 36)
+        y_posicao_liderboard = 100
+        espaco_entre_jogadores = 50
+
+        # Desenha o fundo na tela
         window.fill((0, 0, 0))
+
+        # Desenha o título do leaderboard
+        titulo_liderboard = fonte_liderboard.render("Leaderboard", True, (255, 255, 255))
+        titulo_liderboard_rect = titulo_liderboard.get_rect(center=(largura // 2, 50))
+        window.blit(titulo_liderboard, titulo_liderboard_rect)
+
+        # Carrega os jogadores do arquivo JSON
+        with open('ranking.json', 'r') as arquivo_json:
+            dados = json.load(arquivo_json)
+
+        jogadores = dados['Alunos']
+
+        # Desenha os jogadores no leaderboard
+        for i, jogador in enumerate(jogadores):
+            nome = jogador['nome']
+            vitorias = jogador['vitorias']
+
+            texto_jogador = f"{i + 1}. {nome} - {vitorias} vitórias"
+            texto_jogador_render = fonte_liderboard.render(texto_jogador, True, (255, 255, 255))
+            texto_jogador_rect = texto_jogador_render.get_rect(midtop=(largura // 2, y_posicao_liderboard + i * espaco_entre_jogadores))
+            window.blit(texto_jogador_render, texto_jogador_rect)
+
 
         # Configuração do botão "confirmar"
         cor_botao = (255, 255, 255)
