@@ -314,7 +314,7 @@ while game:
         window.blit(PontosP1txt, P1text_rect)
         window.blit(PontosP2txt, P2text_rect)
 
-        if PontosP1 == 3 or PontosP2 == 3:
+        if PontosP1 == 1 or PontosP2 == 1:
             Tela_final = True
             jogando = False
     
@@ -322,12 +322,15 @@ while game:
         pygame.display.update()  # Mostra o novo frame para o jogador
 
     while Tela_final:
-
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                quit()
         # Desenha o fundo na tela
         window.fill((0, 0, 0))
-        window.blit(rule_smenu, (0, 0))  
 
-           # Configuração do botão "Return"
+
+        # Configuração do botão "Return"
         cor_botao = (255, 255, 255)  # branco
         largura_botao_return = 200
         altura_botao_return = 50
