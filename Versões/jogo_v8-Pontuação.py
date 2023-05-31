@@ -128,7 +128,7 @@ class ball(pygame.sprite.Sprite):
             self.speedy = -self.speedy
         
          # Para colisões com os jogadores
-        if boleano and (abs(self.ColisãoX - self.rect.x) > 75): # Limita uma única colisão, por jogador, por 'vez', com base na posição da bola.
+        if boleano and (abs(self.ColisãoX - self.rect.x) > 100): # Limita uma única colisão, por jogador, por 'vez', com base na posição da bola.
             self.ColisãoX = self.rect.centerx
             if self.speedx < 0:
                 self.speedx -= 0.25
@@ -226,27 +226,27 @@ while game:
         if event.type == pygame.KEYDOWN:
             # Dependendo da tecla, altera a velocidade.
             if event.key == pygame.K_w:
-                Player1.speed -= 7
+                Player1.speed -= 8
             if event.key == pygame.K_s:
-                Player1.speed += 7
+                Player1.speed += 8
         # Verifica se soltou alguma tecla.
         if event.type == pygame.KEYUP:
             # Dependendo da tecla, altera a velocidade.
             if event.key == pygame.K_w:
-                Player1.speed += 7
+                Player1.speed += 8
             if event.key == pygame.K_s:
-                Player1.speed -= 7
+                Player1.speed -= 8
     # ////// Movimento Player 2 //////
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_UP:
-                Player2.speed -= 7
+                Player2.speed -= 8
             if event.key == pygame.K_DOWN:
-                Player2.speed += 7
+                Player2.speed += 8
         if event.type == pygame.KEYUP:
             if event.key == pygame.K_UP:
-                Player2.speed += 7
+                Player2.speed += 8
             if event.key == pygame.K_DOWN:
-                Player2.speed -= 7
+                Player2.speed -= 8
     
     # ----- Gera saídas
     if space_pressed:    
