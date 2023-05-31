@@ -2,6 +2,7 @@
 # ----- Importa e inicia pacotes
 import pygame
 import os
+import random
 # Força o diretório a ser o mesmo independentemente do computador
 diretorio = os.path.dirname(os.path.abspath(__file__))
 os.chdir(diretorio)
@@ -114,8 +115,8 @@ class ball(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.centerx = coord[0]
         self.rect.bottom = coord[1]
-        self.speedx = 5
-        self.speedy = 5
+        self.speedx = random.choice([-6, -5, -4, 4, 5, 6])  # Sentido inicial aleatório em X
+        self.speedy = random.choice([-6, -5, -4, 4, 5, 6])  # Sentido inicial aleatório em Y
         self.ColisãoX = 1000
 
     def update(self, boleano):
