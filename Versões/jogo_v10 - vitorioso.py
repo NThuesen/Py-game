@@ -4,6 +4,7 @@ import pygame
 import os
 import random
 import json
+from operator import itemgetter
 # Força o diretório a ser o mesmo independentemente do computador
 diretorio = os.path.dirname(os.path.abspath(__file__))
 os.chdir(diretorio)
@@ -41,6 +42,32 @@ rule_smenu = pygame.transform.scale(rulesmenu, (900, 600))
 # Carrega os efeitos sonoros
 pygame.mixer.music.load('Músicas/Cornfield_Chase.mp3')
 pygame.mixer.music.set_volume(1)
+
+# função para a leaderboard
+def atualizar_ranking(nome_jogador):
+    with open('ranking.json', 'r') as arquivo_json:
+        dados = json.load(arquivo_json)
+
+    jogadores = dados['Alunos']
+
+    # Verifica se o jogador já existe no ranking
+    jogador_existente = next((j for j in jogadores if j['nome'] == nome_jogador), None)
+    if jogador_existente:
+        jogador_existente['vitorias'] += 1
+    else:
+        novo_jogador = {'nome': nome_jogador, 'vitorias': 1}
+        jogadores.append(novo_jogador)
+
+    # Ordena os jogadores por número de vitórias (ordem decrescente)
+    jogadores = sorted(jogadores, key=itemgetter('vitorias'), reverse=True)
+
+    # Limita a lista aos top 5 jogadores
+    top5_jogadores = jogadores[:5]
+
+    # Atualiza os dados no arquivo JSON
+    dados['Alunos'] = top5_jogadores
+    with open('ranking.json', 'w') as arquivo_json:
+        json.dump(dados, arquivo_json)
 
 # Tela de Início
 
