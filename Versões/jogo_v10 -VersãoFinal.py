@@ -25,7 +25,7 @@ cor_texto = (255, 255, 255)  # branco
 posicao_texto = (largura // 2, altura // 2 - 60)
 
 # Carrega as imagens
-
+  
 Seta= pygame.image.load('Imagens/Seta.webp').convert_alpha()
 Seta = pygame.transform.scale(Seta, (100, 100))
 BackMenu= pygame.image.load('Imagens\Menu.png').convert_alpha()
@@ -41,7 +41,7 @@ rule_smenu = pygame.transform.scale(rulesmenu, (900, 600))
 
 # Carrega os efeitos sonoros
 pygame.mixer.music.load('Músicas/Cornfield_Chase.mp3')
-pygame.mixer.music.set_volume(0.4)
+pygame.mixer.music.set_volume(1)
 batida = pygame.mixer.Sound("Músicas/PongSound.wav")
 
 # função para a leaderboard
